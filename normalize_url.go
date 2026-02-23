@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func newNormalizeURL(rawURL string) (string, error) {
+func normalizeURL(rawURL string) (string, error) {
 	parsedURL, err := url.Parse(rawURL)
 	if err != nil {
 		return "", fmt.Errorf("couldn't parse URL: %w", err)
@@ -21,7 +21,7 @@ func newNormalizeURL(rawURL string) (string, error) {
 }
 
 
-func normalizeURL(rawURL string) (string, error) {
+func oldNormalizeURL(rawURL string) (string, error) {
 	// url.Parse(rawURL string) (*URL, error)
 	parsedURL , err := url.Parse(rawURL)
 	if err != nil {

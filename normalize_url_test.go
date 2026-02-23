@@ -6,7 +6,7 @@ import (
 		"log"
 	)
 
-func TestNewNormalizeURL(t *testing.T) {
+func normalizeURL(t *testing.T) {
 	tests := []struct {
 		name          string
 		inputURL      string
@@ -41,10 +41,10 @@ func TestNewNormalizeURL(t *testing.T) {
 		},
 	}
 	
-	log.Println("Test newNormalizeURL")
+	log.Println("Test normalizeURL")
 	for i, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			actual, err := newNormalizeURL(tc.inputURL)
+			actual, err := normalizeURL(tc.inputURL)
 			if err != nil && !strings.Contains(err.Error(), tc.errorContains) {
 				t.Errorf("Test %v - '%s' FAIL: unexpected error: %v", i, tc.name, err)
 				return
@@ -66,7 +66,7 @@ func TestNewNormalizeURL(t *testing.T) {
 }
 
 
-func TestNormalizeURL(t *testing.T) {
+func TestOldNormalizeURL(t *testing.T) {
 	tests := []struct {
 		name          string
 		inputURL      string
@@ -89,10 +89,10 @@ func TestNormalizeURL(t *testing.T) {
 		},
         // add more test cases here
 	}
-	log.Println("Test normalizeURL")
+	log.Println("Test oldNormalizeURL")
 	for i, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			actual, err := normalizeURL(tc.inputURL)
+			actual, err := oldNormalizeURL(tc.inputURL)
 			if err != nil {
 				t.Errorf("\tTest %v - '%s' FAIL: unexpected error: %v", i, tc.name, err)
 				return

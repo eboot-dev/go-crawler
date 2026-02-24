@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	_"net/url"
+	_"sync"
 )
 
 
@@ -46,14 +47,33 @@ func mainCrawlPage() {
 	
 	fmt.Printf("[crawler] response bodies: %d\n", len(bodies))
 }
+
+const (
+	maxConcurrency = 8	
+)
+
+
 func main() {
 	mainCrawlPage()
 	BASE_URL := os.Args[1]
-	pages := make(map[string]int)
-	fmt.Println("Hello, World! From crawlSomePage")
-	crawlSomePage(BASE_URL, BASE_URL, pages)
-	fmt.Println("\nDONE crawlSomePage\n")
-	for normalizedURL, count := range pages {
-		fmt.Printf("%d - %s\n", count, normalizedURL)
+	// pages := make(map[string]int)
+	// fmt.Println("Hello, World! From crawlSomePage")
+	// crawlSomePage(BASE_URL, BASE_URL, pages)
+	// fmt.Println("\nDONE crawlSomePage\n")
+	// for normalizedURL, count := range pages {
+	// 	fmt.Printf("%d - %s\n", count, normalizedURL)
+	// }
+	fmt.Println("Hello, World! From cfg.crawlPage()")
+	cfg,err := configure(BASE_URL,maxConcurrency)
+	if err != nil {
+		fmt.Errorf("Couldn't create config: %v", err)
+		return
 	}
+	cfg.wg.Add(1)
+	go cfg.crawlPage(BASE_URL)
+	cfg.wg.Wait()
+
+	// for normalizedURL, count := range cfg.pages {
+	// 	fmt.Printf("%d - %s\n", count, normalizedURL)
+	// }
 }

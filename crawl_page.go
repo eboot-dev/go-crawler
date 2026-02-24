@@ -63,7 +63,6 @@ func crawlPage(rawBaseURL, rawCurrentURL string, pages map[string]int, bodies ma
 	
 }
 
-
 func crawlSomePage(rawBaseURL, rawCurrentURL string, pages map[string]int) {
 	currentURL, err := url.Parse(rawCurrentURL)
 	if err != nil {

@@ -8,6 +8,7 @@ import (
 
 type config struct {
 	pages              map[string]PageData
+	maxPages		   int
 	baseURL            *url.URL
 	mu                 *sync.Mutex
 	concurrencyControl chan struct{}
@@ -20,6 +21,14 @@ func (cfg *config) crawlPage(rawCurrentURL string) {
 		<-cfg.concurrencyControl
 		cfg.wg.Done()
 	}()
+	cfg.mu.Lock()
+	l := len(cfg.pages)
+	cfg.mu.Unlock()
+
+	if l >= cfg.maxPages {	
+		return
+	}
+	
 
 	currentURL, err := url.Parse(rawCurrentURL)
 	if err != nil {
